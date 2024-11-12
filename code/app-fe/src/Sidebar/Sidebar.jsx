@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GiAlgae } from "react-icons/gi";
 import { VscRunAll } from "react-icons/vsc";
@@ -31,11 +31,30 @@ function Sidebar({ setIsAuthenticated }) {
     );
 }
 
-const SideBarIcon = ({ icon, text, route, onClick }) => (
-    <div className="sidebar-icon group" onClick={onClick}>
-        {route ? <Link to={route}>{icon}</Link> : icon}
+const SideBarIcon = ({ icon, text, route, onClick }) => {
+    
+    const [isSmall, setIsSmall] = useState(false)
+    function handleSidebarMouseOver(){
+        setIsSmall(true)
+        console.log(isSmall)
+    }
+    function handleSidebarMouseOut(){
+        setIsSmall(false)
+    }
+    return (
+    
+        <>
+        <div className="sidebar-icon group relative" onClick={onClick} onMouseOver={handleSidebarMouseOver} onMouseOut={handleSidebarMouseOut}>
+            {route ? <Link to={route}>{icon}</Link> : icon}
+
+            {isSmall?(<div className="smallText absolute left-20 top-1/2 transform -translate-y-1/2 bg-slate-400 text-black shadow-sm p-2 rounded-full z-20 opacity-75">
+                    {text}
+                </div>):<></>}
+            
+        </div>
         
-    </div>
-);
+        </>
+    )
+};
 
 export default Sidebar;

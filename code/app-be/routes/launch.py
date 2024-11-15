@@ -4,11 +4,15 @@ from werkzeug.utils import secure_filename
 import os
 from bson import ObjectId
 from pymongo.errors import PyMongoError
+from helpers.uploadHelper import handle_analysis
+
+
 
 launch_bp = Blueprint('launch', __name__)
 from app import mongo
 
 UPLOAD_FOLDER = 'uploads/videos'
+
 ALLOWED_EXTENSIONS = {'mp4'}
 
 def check_mp4(filename):
@@ -27,7 +31,7 @@ def upload_video():
         
         if not user:
             return jsonify({'message': 'User not found'}), 404
-
+        
         if 'video' not in request.files:
             return jsonify({'message': 'No file part'}), 400
         
@@ -66,7 +70,8 @@ def upload_video():
                 {'_id': user['_id']},
                 {'$push': {'videos': video_id}}
             )
-            
+            handle_analysis(file_path,user['_id'],video_id)
+
             return jsonify({'message': 'Video uploaded successfully', 'video_id': str(video_id)}), 201
         
         return jsonify({'message': 'File type not allowed'}), 400

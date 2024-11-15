@@ -36,10 +36,9 @@ def register():
 
     mongo.db.users.insert_one(newUser)
 
-    access_token = create_access_token(identity={'name':name,'email':email})
-    response = make_response(jsonify({'message':'User Registered Successfully'}),201)
-    response.set_cookie('access_token_cookie',access_token,max_age=60*60*24,httponly=True)
-
+    access_token = create_access_token(identity={'name': name, 'email': email})
+    response = make_response(jsonify({'message': 'User Registered Successfully', 'access_token': access_token}), 201)
+    response.headers['Authorization'] = f'Bearer {access_token}'
     return response
 
 @auth_bp.route('/login',methods=['POST'])
@@ -55,10 +54,9 @@ def login():
         if userExist:
             if (bcrypt.checkpw(password.encode('utf-8'),userExist['password'].encode('utf-8'))):
 
-                access_token = create_access_token(identity={'name':userExist['name'],'email':email})
-                response = make_response(jsonify({'message':'Logged in Successfully'}),201)
-                response.set_cookie('access_token_cookie',access_token,max_age=60*60*24,httponly=True )
-
+                access_token = create_access_token(identity={'name': userExist['name'], 'email': email})
+                response = make_response(jsonify({'message': 'Logged in Successfully', 'access_token': access_token}), 201)
+                response.headers['Authorization'] = f'Bearer {access_token}'
                 return response
         raise Exception("Password or Email Incorrect")
 
@@ -75,7 +73,6 @@ def checkAuth():
 @auth_bp.route('/logout',methods=['POST'])
 def logout():
     response = make_response(jsonify({'message': 'Logged out successfully'}))
-    response.set_cookie('access_token_cookie', '', expires=0)
     return response
 
 

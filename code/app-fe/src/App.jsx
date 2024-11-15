@@ -10,6 +10,8 @@ import Statistic from "./Stat/Statistic";
 import LoadingIcons from 'react-loading-icons';
 import axios from 'axios';
 import PageNotFound from "./PageNotFound/PageNotFound";
+import { ToastContainer } from 'react-toastify';  // Import ToastContainer
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -97,6 +99,17 @@ function App() {
                         </PrivateRoute>
                     } />
                 </Routes>
+                <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
             </Router>
         </div>
     );

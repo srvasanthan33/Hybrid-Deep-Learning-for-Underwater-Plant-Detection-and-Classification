@@ -10,7 +10,12 @@ function Profile() {
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/profile', { withCredentials: true });
+                const token = localStorage.getItem('token')
+                const response = await axios.get('http://localhost:5000/profile',
+                {headers:{
+                    Authorization:`Bearer ${token}`
+                }}
+                );
                 setUserDetails(response.data.userDetails);
                 setLoading(false);
             } catch (err) {

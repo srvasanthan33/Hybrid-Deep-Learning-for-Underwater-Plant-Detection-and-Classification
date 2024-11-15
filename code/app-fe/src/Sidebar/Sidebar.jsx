@@ -19,7 +19,7 @@ function Sidebar({ setIsAuthenticated }) {
     };
 
     return (
-        <div className="top-0 left-0 h-screen w-28 flex flex-col drop-shadow-xl shadow-md shadow-black bg-teal-900 text-lime-300">
+        <div className="top-0 sticky left-0 h-screen w-28 flex flex-col drop-shadow-xl shadow-md shadow-black bg-teal-900 text-lime-300">
             <SideBarIcon icon={<GiAlgae size="36" />} text="Home" route='/' />
             <SideBarIcon icon={<VscRunAll size="36" />} text="Launch" route='/launch' />
             <SideBarIcon icon={<IoStatsChart size="36" />} text="Statistics" route='/statistic' />

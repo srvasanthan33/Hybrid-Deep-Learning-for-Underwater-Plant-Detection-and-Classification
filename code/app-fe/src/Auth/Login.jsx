@@ -14,6 +14,8 @@ function Login({ setIsAuthenticated }) {
         try {
             const response = await axios.post('http://localhost:5000/login', { email, password }, { withCredentials: true });
             if (response.status === 201) {
+                const token = response.data.access_token; // Extract the token from the response
+                localStorage.setItem('token', token);
                 setIsAuthenticated(true);
                 navigate('/');
             }
